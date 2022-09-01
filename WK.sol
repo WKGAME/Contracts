@@ -357,7 +357,7 @@ contract WK is ERC20Burnable, Ownable{
     event ExcludeFromFees(address indexed account, bool isExcluded);
     
 
-    constructor(string memory name_, string memory symbol_,address nft_, uint256 markTime_,address relation_,address lpAddress_)
+    constructor(string memory name_, string memory symbol_,address nft_, uint256 markTime_,uint256 nftStartTime_,uint256 startTime_,address relation_,address lpAddress_)
         ERC20(name_, symbol_)
     {
         _mint(_burnAddress, 600 * 10**12 * 10**18);
@@ -365,6 +365,8 @@ contract WK is ERC20Burnable, Ownable{
         _mint(_communityAddress, 100 * 10**12 * 10**18);
         _mint(_operationAddress, 200 * 10**12 * 10**18);
         markTime = markTime_;
+        nftStartTime = nftStartTime_;
+        startTime = startTime_;
         Relation = relation_;
         _lpAddress = lpAddress_;
         wknft = nft_;
@@ -434,7 +436,7 @@ contract WK is ERC20Burnable, Ownable{
             uint256 WKCurrentPrice = getWKPrice();
             uint256 value = (balanceOf(to)+amount) * WKCurrentPrice;
             if(ilvl > 0){
-            require(block.timestamp > nftStartTime);
+            require(block.timestamp >= nftStartTime);
             if(ilvl ==1){
             require(value <= 400 * 10 ** 18);
             }
